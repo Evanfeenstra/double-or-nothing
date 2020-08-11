@@ -1,0 +1,49 @@
+*{
+  box-sizing: border-box;
+}
+html {
+  font-size: 10px;
+}
+@media (min-width: 400px) {
+  html { /* TABLET */
+    font-size: 15px;
+  }
+}
+@media (min-width: 768px) {
+  html { /* DESKTOP */
+    font-size: 21px;
+  }
+}
+.App {
+  text-align: center;
+  background-color: #282c34;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.pie{
+  max-height:50vw;
+  max-width:50vw;
+}
+
+.spin-txt{
+  font: bold 2px sans-serif;
+  fill:white;
+  cursor: pointer;
+}
+.spin-txt:hover{
+  fill: #2cbd77;
+}
+
+.teardrop{
+  width:3rem;
+  height:3rem;
+  transform: scale(1, -1) translateY(-1rem);
+  fill: white;
+}
