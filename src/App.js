@@ -4,6 +4,7 @@ import './App.css';
 function App() {
   const fullsize = Math.min(window.innerHeight,window.innerWidth)
   const size = Math.round(fullsize/2)
+  const pieTop = window.innerHeight/2-size
   return (
     <div className="App">
 
@@ -13,7 +14,7 @@ function App() {
       </svg>
 
       <svg className="pie" viewBox="0 0 20 20"
-        style={{width:size,height:size}}>
+        style={{width:size,height:size,top:pieTop}}>
         <circle r="10" cx="10" cy="10" fill="tomato" />
         <circle r="5" cx="10" cy="10" fill="tomato"
           stroke="#2cbd77"

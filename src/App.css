@@ -30,6 +30,7 @@ html {
 .pie{
   max-height:50vw;
   max-width:50vw;
+  z-index: 99;
 }
 
 .spin-txt{
@@ -42,6 +43,7 @@ html {
 }
 
 .teardrop{
+  z-index: 100;
   width:3rem;
   height:3rem;
   transform: scale(1, -1) translateY(-1rem);
