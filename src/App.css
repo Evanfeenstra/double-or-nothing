@@ -25,6 +25,7 @@ html {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  position: relative;
 }
 
 .pie{
@@ -46,6 +47,23 @@ html {
   z-index: 100;
   width:3rem;
   height:3rem;
-  transform: scale(1, -1) translateY(-1rem);
   fill: white;
+}
+
+.page{
+  height:100vh;
+  width:100vw;
+  position: absolute;
+  top:0;left:0;right:0;bottom:0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn{
+  z-index: 101;
+  position: relative;
+  width:5rem;
+  height:3rem;
 }
