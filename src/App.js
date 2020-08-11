@@ -14,6 +14,7 @@ function App() {
       setSize(Math.round(fullsize/2))
     })
   },[])
+  
   return (
     <div className="App">
 
