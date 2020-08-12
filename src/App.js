@@ -38,8 +38,11 @@ function App() {
   }
 
   let className = 'pie'
-  if(winLose === 'Win!')className='pie pie-spin-win'
+  if(spinning===true){
+      if(winLose === 'Win!')className='pie pie-spin-win'
   if(winLose === 'Lose!')className='pie pie-spin-lose'
+  }
+
   return (
     <div className="App">
       <div className="tokens" style={{zIndex:102}}>
