@@ -47,14 +47,17 @@ function App() {
       setWinLose('Win!') // money paid out by /api
     } else {
       setWinLose('Lose!') // pay over bridge
+    }
+
+    await sleep(2000)
+    if(!x) { // payout if i lost
       sphinx.keysend(housePubkey,bet).then(r=>{
         if(r&&r.success) setTokens(r.budget)
       })
     }
-
-    await sleep(2000)
     setSpinning(false)
     setBet(0)
+    await sleep(1000)
     sphinx.updated()
   }
 
