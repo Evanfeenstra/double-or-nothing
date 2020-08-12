@@ -14,7 +14,7 @@ module.exports = async function (req, res) {
   const { amount, pubkey } = req.query
   const amt = parseInt(amount) || 0
   try {
-    const r = await fetch(url + 'extra', {
+    const r = await fetch(url + 'action', {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
