@@ -5,9 +5,10 @@ function App() {
   
   const fullsize = Math.min(window.innerHeight,window.innerWidth)
   const [size,setSize] = useState(Math.round(fullsize/2))
-  const [winLose, setWinLose] = useState('Take a chance')
+  const [winLose, setWinLose] = useState('')
   const [tokens, setTokens] = useState(100)
   const [bet, setBet] = useState(0)
+  const [spinning, setSpinning] = useState(false)
   
   const teardropTop = size/2+10
 
@@ -18,9 +19,11 @@ function App() {
     })
   },[])
 
-  function spinning(){
+  function spin(){
     let x
     x = (Math.floor(Math.random() * 2) === 0);
+    setWinLose('')
+    setSpinning(true)
     if(x){
       setWinLose('Win!')
       setTokens(()=>parseInt(tokens)+parseInt(bet))
@@ -29,18 +32,21 @@ function App() {
       setTokens(()=>parseInt(tokens)-parseInt(bet))
     }
     setTimeout(() => {
-      setWinLose('Take a chance')
+      setSpinning(false)
     }, 2000);
     return
   }
 
+  let className = 'pie'
+  if(winLose === 'Win!')className='pie pie-spin-win'
+  if(winLose === 'Lose!')className='pie pie-spin-lose'
   return (
     <div className="App">
       <div className="tokens" style={{zIndex:102}}>
         You have: {tokens} tokens <br/>
         <label for="betamount">Your Bet:</label>
         <input id='betamount' type='number' value={bet} onChange={e => setBet(e.target.value) } /><br/>
-        {winLose}
+        {spinning ? 'Take a Chance' : (winLose || 'Take a Chance')}
       </div>
       <div className="page">
         <svg className="teardrop" width="847.372px" height="847.372px" viewBox="0 0 847.372 847.372"
@@ -51,7 +57,7 @@ function App() {
       </div>
 
       <div className="page">
-        <svg className={winLose!=="Take a chance" ? 'pie pie-spin-win' : 'pie'} viewBox="0 0 20 20"
+        <svg className={className} viewBox="0 0 20 20"
           style={{width:size,height:size}}>
           <circle r="10" cx="10" cy="10" fill="tomato" />
           <circle r="5" cx="10" cy="10" fill="tomato"
@@ -64,7 +70,7 @@ function App() {
       </div>
 
       <div className="page">
-        <button className="btn" onClick={spinning}>
+        <button disabled={spinning} className="btn" onClick={spin}>
           Spin
           </button>
       </div>
