@@ -44,22 +44,23 @@ html {
   max-height:50vw;
   max-width:50vw;
   z-index: 99;
+  transform: rotate(14deg)
 }
 .pie-spin-lose{
   -webkit-transition: -webkit-transform 2s ease-out;
   -ms-transition: -ms-transform 2s ease-out;
   transition: transform 2s ease-out; 
-  transform:rotate(360deg);
-    -ms-transform:rotate(360deg);
-    -webkit-transform:rotate(360deg);
+  transform:rotate(356deg);
+    -ms-transform:rotate(356deg);
+    -webkit-transform:rotate(356deg);
 }
 .pie-spin-win{
   -webkit-transition: -webkit-transform 2s ease-out;
   -ms-transition: -ms-transform 2s ease-out;
   transition: transform 2s ease-out; 
-  transform:rotate(400deg);
-    -ms-transform:rotate(400deg);
-    -webkit-transform:rotate(400deg);
+  transform:rotate(394deg);
+    -ms-transform:rotate(394deg);
+    -webkit-transform:rotate(394deg);
 }
 
 .spin-txt{
