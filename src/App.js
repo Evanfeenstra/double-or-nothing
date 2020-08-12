@@ -28,7 +28,7 @@ function App() {
       setWinLose('Lose!')
       setTokens(()=>parseInt(tokens)-parseInt(bet))
     }
-    return
+    setTimeout(()=> setWinLose('Spin'), 2000)
   }
 
   return (
@@ -62,7 +62,7 @@ function App() {
       <div className="page">
         <button className="btn" onClick={spinning}>
           {winLose}
-          </button>
+        </button>
       </div>
 
     </div>

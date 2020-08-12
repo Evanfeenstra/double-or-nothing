@@ -40,13 +40,11 @@ html {
   max-height:50vw;
   max-width:50vw;
   z-index: 99;
+}
+.pie-spin-win{
   -webkit-transition: -webkit-transform .8s ease-in-out;
   -ms-transition: -ms-transform .8s ease-in-out;
   transition: transform .8s ease-in-out; 
-  /* animation: rotation 3s infinite linear; */
-
-}
-.pie-spin-win{
   transform:rotate(360deg);
     -ms-transform:rotate(360deg);
     -webkit-transform:rotate(360deg);
