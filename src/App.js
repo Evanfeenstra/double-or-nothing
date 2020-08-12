@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
+import * as sphinx from 'sphinx-bridge'
 
 function App() {
   
   const fullsize = Math.min(window.innerHeight,window.innerWidth)
   const [size,setSize] = useState(Math.round(fullsize/2))
   const [winLose, setWinLose] = useState('')
-  const [tokens, setTokens] = useState(100)
+  const [tokens, setTokens] = useState(0)
   const [bet, setBet] = useState(0)
   const [spinning, setSpinning] = useState(false)
-  
+  const [pubkey,setPubkey] = useState('')
+
   const teardropTop = size/2+10
 
   useEffect(()=>{
@@ -19,37 +21,66 @@ function App() {
     })
   },[])
 
-  function spin(){
-    let x
-    x = (Math.floor(Math.random() * 2) === 0);
+  useEffect(()=>{
+    (async () => {
+      window.sphinx= sphinx
+      const r = await sphinx.enable()
+      if(r&&r.budget) {
+        setTokens(r.budget)
+        setPubkey(r.pubkey)
+      }
+    })()
+  },[])
+
+  async function spin(){
+    
+    const r = await fetch(`/api?pubkey=${pubkey}&amount=${bet}`)
+    const j = await r.json()
+    const x = j.win
+    const housePubkey = j.pubkey
+
     setWinLose('')
+    await sleep(1) // for css transition
+
     setSpinning(true)
     if(x){
-      setWinLose('Win!')
-      setTokens(()=>parseInt(tokens)+parseInt(bet))
+      setWinLose('Win!') // money paid out by /api
     } else {
-      setWinLose('Lose!')
-      setTokens(()=>parseInt(tokens)-parseInt(bet))
+      setWinLose('Lose!') // pay over bridge
+      sphinx.keysend(housePubkey,bet).then(r=>{
+        if(r&&r.success) setTokens(r.budget)
+      })
     }
-    setTimeout(() => {
-      setSpinning(false)
-    }, 2000);
-    return
+
+    await sleep(2000)
+    setSpinning(false)
+    setBet(0)
+    sphinx.updated()
   }
 
   let className = 'pie'
-  if(spinning===true){
-      if(winLose === 'Win!')className='pie pie-spin-win'
-  if(winLose === 'Lose!')className='pie pie-spin-lose'
-  }
+  if(winLose === 'Win!') className='pie pie-spin-win'
+  if(winLose === 'Lose!') className='pie pie-spin-lose'
 
   return (
     <div className="App">
-      <div className="tokens" style={{zIndex:102}}>
-        You have: {tokens} tokens <br/>
-        <label for="betamount">Your Bet:</label>
-        <input id='betamount' type='number' value={bet} onChange={e => setBet(e.target.value) } /><br/>
-        {spinning ? 'Take a Chance' : (winLose || 'Take a Chance')}
+      <div className="tokens">
+        <div className="budget">Budget: {tokens} sats</div>
+        <div className="bet">
+          <label htmlFor="betamount">Your Bet:</label>
+          <input id='betamount' type='number' value={bet} onChange={e=> {
+            const val = e.target.value
+            if(val==='') {
+              setBet('') // allow empty 
+            } else { // only allow if have funds
+              const theBet = parseInt(val)
+              if(theBet<=tokens) setBet(theBet) 
+            }
+          }} />
+        </div>
+        <div className="winLose">
+          {spinning ? 'Take a Chance' : (winLose || 'Take a Chance')}
+        </div>
       </div>
       <div className="page">
         <svg className="teardrop" width="847.372px" height="847.372px" viewBox="0 0 847.372 847.372"
@@ -73,9 +104,9 @@ function App() {
       </div>
 
       <div className="page">
-        <button disabled={spinning} className="btn" onClick={spin}>
+        <button disabled={spinning||!bet} className="btn" onClick={spin}>
           Spin
-          </button>
+        </button>
       </div>
 
     </div>
@@ -83,3 +114,7 @@ function App() {
 }
 
 export default App;
+
+export async function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms))
+}

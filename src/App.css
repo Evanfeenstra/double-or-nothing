@@ -4,15 +4,18 @@
 html {
   font-size: 10px;
 }
+.tokens{top:45px;}
 @media (min-width: 400px) {
   html { /* TABLET */
     font-size: 15px;
   }
+  .tokens{top:30px;}
 }
 @media (min-width: 768px) {
   html { /* DESKTOP */
     font-size: 21px;
   }
+  .tokens{top:15px;}
 }
 .App {
   text-align: center;
@@ -28,13 +31,14 @@ html {
   position: relative;
 }
 .tokens{
-  padding-top: 5px;
   background-color: white;
   color: black;
   width:20rem;
-  height:5.3rem;
-  font-size:1.3rem;
-  transform: translate(0px, -300px);
+  font-size:1.1rem;
+  padding:12px 0;
+  z-index: 102;
+  position: absolute;
+  left:calc(50% - 10rem);
 }
 .pie{
   max-height:50vw;
@@ -42,17 +46,17 @@ html {
   z-index: 99;
 }
 .pie-spin-lose{
-  -webkit-transition: -webkit-transform .8s ease-in-out;
-  -ms-transition: -ms-transform .8s ease-in-out;
-  transition: transform .8s ease-in-out; 
+  -webkit-transition: -webkit-transform 2s ease-out;
+  -ms-transition: -ms-transform 2s ease-out;
+  transition: transform 2s ease-out; 
   transform:rotate(360deg);
     -ms-transform:rotate(360deg);
     -webkit-transform:rotate(360deg);
 }
 .pie-spin-win{
-  -webkit-transition: -webkit-transform .8s ease-in-out;
-  -ms-transition: -ms-transform .8s ease-in-out;
-  transition: transform .8s ease-in-out; 
+  -webkit-transition: -webkit-transform 2s ease-out;
+  -ms-transition: -ms-transform 2s ease-out;
+  transition: transform 2s ease-out; 
   transform:rotate(400deg);
     -ms-transform:rotate(400deg);
     -webkit-transform:rotate(400deg);
@@ -91,4 +95,22 @@ html {
   width:5rem;
   height:3rem;
   font-size:1.3rem;
+}
+input#betamount{
+  width:100px;
+  height:1.8rem;
+  border-radius: 9px;
+  margin-left:5px;
+  font-size:1rem;
+  outline:none;
+  padding-left:8px;
+}
+.budget{
+  margin-bottom:9px;
+}
+.bet{
+  margin-bottom:9px;
+}
+.winLose{
+  font-weight: bold;
 }

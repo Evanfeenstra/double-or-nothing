@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Sphinx Bridge Test</title>
+      <style>
+         html{font-family: helvetica;}
+         body{background-color:#ccc;display:flex;align-items:center;flex-direction:column;}
+         #modal{
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50px;
+            top: 25px;
+            width: calc(100% - 100px);
+            height: 200px;
+            overflow: auto;
+            background-color:white;
+            border-radius: 20px;
+            border:1px solid grey;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-around;
+         }
+         #iframe{
+             height: 800px;
+             width: 800px;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="modal">
+         Authorize the application "Double or Nothing"?
+         <div>
+            <input id="budget" placeholder="budget in sats" />
+            <button onclick="modal.style.display='none'">No</button>
+            <button onclick="ok()">Yes</button>
+         </div>
+      </div>
+      <h2>Sphinx</h2>
+      <h3>Balance: <span id="balance">1000</span></h3>
+      <iframe id="iframe" src="http://localhost:3000" frameborder="0"></iframe>
+      <script>
+var balance = 1000
+var iframe = document.getElementById('iframe')
+const iframeWin = iframe.contentWindow
+var modal = document.getElementById('modal')
+var budget = document.getElementById('budget')
+var balanceDisplay = document.getElementById('balance')
+window.addEventListener('message', function(e){
+   if(e.data.type==='AUTHORIZE') {
+      modal.style.display='flex'
+   }
+   if(e.data.type==='KEYSEND') {
+      const amt = e.data.amt
+      // do the keysend here
+      iframeWin.postMessage({
+         type: 'KEYSEND',
+         application: 'Sphinx', 
+         success: true
+      }, '*')
+      balance = balance-amt
+      balanceDisplay.innerHTML = balance
+   }
+})
+function ok(){
+   modal.style.display='none'
+   iframeWin.postMessage({
+      type: 'AUTHORIZE',
+      application: 'Sphinx',
+      budget:parseInt(budget.value)||null,
+      pubkey:'0350587f325dcd6eb50b1c86874961c134be3ab2b9297d88e61443bb0531d7798e'
+   }, '*')
+}
+      </script>
+   </body>
+</html>
