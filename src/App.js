@@ -5,7 +5,7 @@ function App() {
   
   const fullsize = Math.min(window.innerHeight,window.innerWidth)
   const [size,setSize] = useState(Math.round(fullsize/2))
-  const [winLose, setWinLose] = useState('Spin')
+  const [winLose, setWinLose] = useState('Take a chance')
   const [tokens, setTokens] = useState(100)
   const [bet, setBet] = useState(0)
   
@@ -28,6 +28,9 @@ function App() {
       setWinLose('Lose!')
       setTokens(()=>parseInt(tokens)-parseInt(bet))
     }
+    setTimeout(() => {
+      setWinLose('Take a chance')
+    }, 2000);
     return
   }
 
@@ -36,7 +39,8 @@ function App() {
       <div className="tokens" style={{zIndex:102}}>
         You have: {tokens} tokens <br/>
         <label for="betamount">Your Bet:</label>
-        <input id='betamount' type='number' value={bet} onChange={e => setBet(e.target.value) } />
+        <input id='betamount' type='number' value={bet} onChange={e => setBet(e.target.value) } /><br/>
+        {winLose}
       </div>
       <div className="page">
         <svg className="teardrop" width="847.372px" height="847.372px" viewBox="0 0 847.372 847.372"
@@ -47,7 +51,7 @@ function App() {
       </div>
 
       <div className="page">
-        <svg className={winLose!=="Spin" ? 'pie pie-spin-win' : 'pie'} viewBox="0 0 20 20"
+        <svg className={winLose!=="Take a chance" ? 'pie pie-spin-win' : 'pie'} viewBox="0 0 20 20"
           style={{width:size,height:size}}>
           <circle r="10" cx="10" cy="10" fill="tomato" />
           <circle r="5" cx="10" cy="10" fill="tomato"
@@ -61,7 +65,7 @@ function App() {
 
       <div className="page">
         <button className="btn" onClick={spinning}>
-          {winLose}
+          Spin
           </button>
       </div>
 
