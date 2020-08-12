@@ -27,11 +27,34 @@ html {
   color: white;
   position: relative;
 }
-
+.tokens{
+  padding-top: 5px;
+  background-color: white;
+  color: black;
+  width:20rem;
+  height:4rem;
+  font-size:1.3rem;
+  transform: translate(0px, -300px);
+}
 .pie{
   max-height:50vw;
   max-width:50vw;
   z-index: 99;
+  -webkit-transition: -webkit-transform .8s ease-in-out;
+  -ms-transition: -ms-transform .8s ease-in-out;
+  transition: transform .8s ease-in-out; 
+  /* animation: rotation 3s infinite linear; */
+
+}
+.pie-spin-win{
+  transform:rotate(360deg);
+    -ms-transform:rotate(360deg);
+    -webkit-transform:rotate(360deg);
+}
+.pie-spin-lose{
+  transform:rotate(360deg);
+    -ms-transform:rotate(360deg);
+    -webkit-transform:rotate(360deg);
 }
 
 .spin-txt{

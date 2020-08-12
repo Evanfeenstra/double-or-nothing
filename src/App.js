@@ -5,6 +5,9 @@ function App() {
   
   const fullsize = Math.min(window.innerHeight,window.innerWidth)
   const [size,setSize] = useState(Math.round(fullsize/2))
+  const [winLose, setWinLose] = useState('Spin')
+  const [tokens, setTokens] = useState(100)
+  const [bet, setBet] = useState(0)
   
   const teardropTop = size/2+10
 
@@ -14,10 +17,27 @@ function App() {
       setSize(Math.round(fullsize/2))
     })
   },[])
-  
+
+  function spinning(){
+    let x
+    x = (Math.floor(Math.random() * 2) === 0);
+    if(x){
+      setWinLose('Win!')
+      setTokens(()=>parseInt(tokens)+parseInt(bet))
+    } else {
+      setWinLose('Lose!')
+      setTokens(()=>parseInt(tokens)-parseInt(bet))
+    }
+    return
+  }
+
   return (
     <div className="App">
-
+      <div className="tokens" style={{zIndex:102}}>
+        You have: {tokens} tokens <br/>
+        <label for="betamount">Your Bet:</label>
+        <input id='betamount' type='number' value={bet} onChange={e => setBet(e.target.value) } />
+      </div>
       <div className="page">
         <svg className="teardrop" width="847.372px" height="847.372px" viewBox="0 0 847.372 847.372"
           style={{transform: `scale(1, -1) translateY(${teardropTop}px)`}}>
@@ -27,7 +47,7 @@ function App() {
       </div>
 
       <div className="page">
-        <svg className="pie" viewBox="0 0 20 20"
+        <svg className={winLose!=="Spin" ? 'pie pie-spin-win' : 'pie'} viewBox="0 0 20 20"
           style={{width:size,height:size}}>
           <circle r="10" cx="10" cy="10" fill="tomato" />
           <circle r="5" cx="10" cy="10" fill="tomato"
@@ -40,7 +60,9 @@ function App() {
       </div>
 
       <div className="page">
-        <button className="btn">SPIN</button>
+        <button className="btn" onClick={spinning}>
+          {winLose}
+          </button>
       </div>
 
     </div>
