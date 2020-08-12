@@ -23,8 +23,8 @@ function App() {
 
   useEffect(()=>{
     (async () => {
-      window.sphinx= sphinx
-      const r = await sphinx.enable()
+      await sleep(1)
+      const r = await sphinx.enable(true)
       if(r&&r.budget) {
         setTokens(r.budget)
         setPubkey(r.pubkey)
