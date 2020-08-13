@@ -11,6 +11,7 @@ function App() {
   const [bet, setBet] = useState(0)
   const [spinning, setSpinning] = useState(false)
   const [pubkey,setPubkey] = useState('')
+  const [clicked,setClicked] = useState(false)
 
   const teardropTop = size/2+10
 
@@ -33,7 +34,7 @@ function App() {
   },[])
 
   async function spin(){
-    
+    setClicked(true)
     const r = await fetch(`/api?pubkey=${pubkey}&amount=${bet}`)
     const j = await r.json()
     const x = j.win
@@ -56,6 +57,7 @@ function App() {
       })
     }
     setSpinning(false)
+    setClicked(false)
     setBet(0)
     await sleep(1000)
     sphinx.updated()
@@ -107,7 +109,7 @@ function App() {
       </div>
 
       <div className="page">
-        <button disabled={spinning||!bet} className="btn" onClick={spin}>
+        <button disabled={clicked||spinning||!bet} className="btn" onClick={spin}>
           Spin
         </button>
       </div>
