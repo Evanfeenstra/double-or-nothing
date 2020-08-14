@@ -67,6 +67,7 @@ function App() {
   if(winLose === 'Win!') className='pie pie-spin-win'
   if(winLose === 'Lose!') className='pie pie-spin-lose'
 
+  const MAX_BET = 10000
   return (
     <div className="App">
       <div className="tokens">
@@ -79,7 +80,7 @@ function App() {
               setBet('') // allow empty 
             } else { // only allow if have funds
               const theBet = parseInt(val)
-              if(theBet<=tokens) setBet(theBet) 
+              if(theBet<=tokens && theBet<=MAX_BET) setBet(theBet) 
             }
           }} />
         </div>
