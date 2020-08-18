@@ -7,7 +7,7 @@ function App() {
   const fullsize = Math.min(window.innerHeight, window.innerWidth)
   const [size, setSize] = useState(Math.round(fullsize / 2))
   const [winLose, setWinLose] = useState('')
-  const [tokens, setTokens] = useState(1000)
+  const [tokens, setTokens] = useState(0)
   const [bet, setBet] = useState('0')
   const [spinning, setSpinning] = useState(false)
   const [pubkey,setPubkey] = useState('')
