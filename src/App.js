@@ -7,8 +7,8 @@ function App() {
   const fullsize = Math.min(window.innerHeight, window.innerWidth)
   const [size, setSize] = useState(Math.round(fullsize / 2))
   const [winLose, setWinLose] = useState('')
-  const [tokens, setTokens] = useState(0)
-  const [bet, setBet] = useState(0)
+  const [tokens, setTokens] = useState(1000)
+  const [bet, setBet] = useState('0')
   const [spinning, setSpinning] = useState(false)
   const [pubkey,setPubkey] = useState('')
   const [clicked,setClicked] = useState(false)
@@ -59,7 +59,7 @@ function App() {
     setSpinning(false)
     setClicked(false)
     setBet(0)
-    await sleep(1000)
+    await sleep(2000)
     sphinx.updated()
   }
 
@@ -80,9 +80,11 @@ function App() {
               setBet('') // allow empty 
             } else { // only allow if have funds
               const theBet = parseInt(val)
-              if(theBet<=tokens && theBet<=MAX_BET) setBet(theBet) 
+              if(theBet>0 && theBet<=tokens && theBet<=MAX_BET) setBet(theBet) 
             }
-          }} />
+          }} onFocus={()=>{
+            if (bet==='0') setBet('')
+          }}/>
         </div>
         <div className="winLose">
           {spinning ? 'Take a Chance' : (winLose || 'Take a Chance')}
