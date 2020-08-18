@@ -10,7 +10,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.2",
-    "sphinx-bridge": "^0.1.5"
+    "sphinx-bridge": "^0.1.7"
   },
   "scripts": {
     "start": "react-scripts start",
