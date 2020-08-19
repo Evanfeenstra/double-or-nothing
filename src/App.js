@@ -67,7 +67,7 @@ function App() {
   if(winLose === 'Win!') className='pie pie-spin-win'
   if(winLose === 'Lose!') className='pie pie-spin-lose'
 
-  const MAX_BET = 10000
+  const MAX_BET = 1000
   return (
     <div className="App">
       <div className="tokens">
