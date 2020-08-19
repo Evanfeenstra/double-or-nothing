@@ -12,6 +12,7 @@ function App() {
   const [spinning, setSpinning] = useState(false)
   const [pubkey,setPubkey] = useState('')
   const [clicked,setClicked] = useState(false)
+  const [initialBudget,setInitialBudget] = useState(0)
 
   const teardropTop = size/2+10
 
@@ -27,6 +28,7 @@ function App() {
       await sleep(1)
       const r = await sphinx.enable(true)
       if(r&&r.budget) {
+        setInitialBudget(r.budget)
         setTokens(r.budget)
         setPubkey(r.pubkey)
       }
@@ -51,16 +53,29 @@ function App() {
     }
 
     await sleep(2000)
-    if(!x) { // payout if i lost
-      sphinx.keysend(housePubkey,bet).then(r=>{
-        if(r&&r.success) setTokens(r.budget)
-      })
+    if(!x) { 
+      keysend(housePubkey) // payout if i lost
     }
     setSpinning(false)
     setClicked(false)
     setBet(0)
     await sleep(2000)
     sphinx.updated()
+  }
+
+  async function keysend(housePubkey){
+    const r = await sphinx.keysend(housePubkey,bet)
+    if(r&&r.success) {
+      setTokens(r.budget)
+      if(r.budget<=10 || r.budget<=(initialBudget*0.05)) {
+        const r = await sphinx.topup(true) // reload budget
+        if(r&&r.budget) {
+          setInitialBudget(r.budget)
+          setTokens(r.budget)
+          setPubkey(r.pubkey)
+        }
+      }
+    }
   }
 
   let className = 'pie'
@@ -112,7 +127,7 @@ function App() {
       </div>
 
       <div className="page">
-        <button disabled={clicked||spinning||!bet} className="btn" onClick={spin}>
+        <button disabled={clicked||spinning||!bet||bet==='0'} className="btn" onClick={spin}>
           Spin
         </button>
       </div>
