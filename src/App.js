@@ -54,7 +54,7 @@ function App() {
 
     await sleep(2000)
     if(!x) { 
-      keysend(housePubkey) // payout if i lost
+      await keysend(housePubkey) // payout if i lost
     }
     setSpinning(false)
     setClicked(false)
@@ -64,17 +64,22 @@ function App() {
   }
 
   async function keysend(housePubkey){
-    const r = await sphinx.keysend(housePubkey,bet)
-    if(r&&r.success) {
-      setTokens(r.budget)
-      if(r.budget<=10 || r.budget<=(initialBudget*0.05)) {
-        const r = await sphinx.topup(true) // reload budget
-        if(r&&r.budget) {
-          setInitialBudget(r.budget)
-          setTokens(r.budget)
-          setPubkey(r.pubkey)
+    try {
+      const r = await sphinx.keysend(housePubkey,bet)
+      if(r&&r.success) {
+        setTokens(r.budget)
+        if(r.budget<=10 || r.budget<=(initialBudget*0.05)) {
+          const r = await sphinx.topup(true) // reload budget
+          if(r&&r.budget) {
+            const newBudget = tokens + r.budget
+            setInitialBudget(newBudget)
+            setTokens(newBudget)
+            setPubkey(r.pubkey)
+          }
         }
       }
+    } catch(e) {
+      console.log(e)
     }
   }
 
