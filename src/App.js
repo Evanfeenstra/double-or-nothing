@@ -23,14 +23,34 @@ function App() {
     })
   }, [])
 
+  async function getOauthChallenge(){
+    const client_id='1234567890'
+    const q = `client_id=${client_id}&response_type=code&scope=all&mode=JSON`
+    const url = 'https://auth.sphinx.chat/oauth?'+q
+    try {
+      const r1 = await fetch(url)
+      const j = await r1.json()
+      return j || {}
+    } catch(e) {
+      console.log(e)
+      return {}
+    }
+  }
+
   useEffect(()=>{
     (async () => {
-      await sleep(1)
-      const r = await sphinx.enable(true)
+      const {challenge,id} = await getOauthChallenge()
+      const r = await sphinx.authorize(challenge, true)
+      console.log("AUTHORIZE RES",r)
       if(r&&r.budget) {
         setInitialBudget(r.budget)
         setTokens(r.budget)
         setPubkey(r.pubkey)
+      }
+      if(r&&r.pubkey&&r.signature) {
+        const r2 = await fetch(`/api/verify?id=${id}&sig=${r.signature}&pubkey=${r.pubkey}`)
+        const j = await r2.json()
+        console.log("VERIFY?",j)
       }
     })()
   },[])
@@ -71,7 +91,7 @@ function App() {
         if(r.budget<=10 || r.budget<=(initialBudget*0.05)) {
           const r = await sphinx.topup(true) // reload budget
           if(r&&r.budget) {
-            const newBudget = tokens + r.budget
+            const newBudget = r.budget
             setInitialBudget(newBudget)
             setTokens(newBudget)
             setPubkey(r.pubkey)
