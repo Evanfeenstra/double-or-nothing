@@ -115,3 +115,12 @@ input#betamount{
 .winLose{
   font-weight: bold;
 }
+.pubkey-pre{
+  position: absolute;
+  bottom: 10px;
+  max-width: 280px;
+  font-size: 11px;
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}

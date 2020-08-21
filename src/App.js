@@ -13,6 +13,7 @@ function App() {
   const [pubkey,setPubkey] = useState('')
   const [clicked,setClicked] = useState(false)
   const [initialBudget,setInitialBudget] = useState(0)
+  const [validPubkey,setValidPubkey] = useState('')
 
   const teardropTop = size/2+10
 
@@ -51,6 +52,9 @@ function App() {
         const r2 = await fetch(`/api/verify?id=${id}&sig=${r.signature}&pubkey=${r.pubkey}`)
         const j = await r2.json()
         console.log("VERIFY?",j)
+        if(j&&j.valid) {
+          setValidPubkey(j.pubkey)
+        }
       }
     })()
   },[])
@@ -89,6 +93,7 @@ function App() {
       if(r&&r.success) {
         setTokens(r.budget)
         if(r.budget<=10 || r.budget<=(initialBudget*0.05)) {
+          await sleep(2000)
           const r = await sphinx.topup(true) // reload budget
           if(r&&r.budget) {
             const newBudget = r.budget
@@ -156,6 +161,8 @@ function App() {
           Spin
         </button>
       </div>
+
+        {validPubkey && <pre className="pubkey-pre">{validPubkey}</pre>}
 
     </div>
   );
