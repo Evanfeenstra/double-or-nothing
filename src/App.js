@@ -4,8 +4,15 @@ import * as sphinx from 'sphinx-bridge'
 
 function App() {
 
-  const fullsize = Math.min(window.innerHeight, window.innerWidth)
-  const [size, setSize] = useState(Math.round(fullsize / 2))
+  function getSize(win) {
+    const fullsize = Math.min(win.innerHeight, win.innerWidth)
+    let div = 2
+    if(fullsize<768) div=1.7
+    if(fullsize<400) div=1.2
+    return Math.round(fullsize / div)
+  }
+
+  const [size, setSize] = useState(getSize(window))
   const [winLose, setWinLose] = useState('')
   const [tokens, setTokens] = useState(0)
   const [bet, setBet] = useState('0')
@@ -14,13 +21,14 @@ function App() {
   const [clicked,setClicked] = useState(false)
   const [initialBudget,setInitialBudget] = useState(0)
   const [validPubkey,setValidPubkey] = useState('')
+  const [txs, setTxs] = useState([])
+  const [showTx,setShowTx] = useState(false)
 
   const teardropTop = size/2+10
 
   useEffect(() => {
     window.addEventListener('resize', e => {
-      const fullsize = Math.min(e.target.innerHeight, e.target.innerWidth)
-      setSize(Math.round(fullsize / 2))
+      setSize(getSize(e.target))
     })
   }, [])
 
@@ -38,6 +46,17 @@ function App() {
     }
   }
 
+  function addTx(wl,amt){
+    const time = new Date().toLocaleTimeString()
+    setTxs(current=> {
+      const theTxs=[...current]
+      theTxs.unshift({
+        time, amount:amt, text:wl
+      })
+      return theTxs
+    })
+  }
+  console.log(txs)
   useEffect(()=>{
     (async () => {
       const {challenge,id} = await getOauthChallenge()
@@ -77,8 +96,12 @@ function App() {
     }
 
     await sleep(2000)
-    if(!x) { 
+    if(x) {
+      setTokens(tokens+bet)
+      addTx('WIN',bet)
+    } else { 
       await keysend(housePubkey) // payout if i lost
+      addTx('LOSE',bet)
     }
     setSpinning(false)
     setClicked(false)
@@ -134,7 +157,11 @@ function App() {
         <div className="winLose">
           {spinning ? 'Take a Chance' : (winLose || 'Take a Chance')}
         </div>
+        <svg className="burg" viewBox="0 0 32 32" onClick={()=>setShowTx(!showTx)}>
+          <path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/>
+        </svg>
       </div>
+      
       <div className="page">
         <svg className="teardrop" width="847.372px" height="847.372px" viewBox="0 0 847.372 847.372"
           style={{ transform: `scale(1, -1) translateY(${teardropTop}px)` }}>
@@ -162,7 +189,28 @@ function App() {
         </button>
       </div>
 
-        {validPubkey && <pre className="pubkey-pre">{validPubkey}</pre>}
+      {showTx && <div className="page" style={{zIndex:102}}>
+        <div className="show-txs">
+          <h5>History</h5>
+          <div className="txs">
+            {txs.map((t,i)=>{
+              const amtColor = t.text==='WIN' ? '#2cbd77' : 'tomato'
+              return <div className="tx" key={i}>
+                <b style={{width:45,textAlign:'left'}}>{t.text}</b>
+                <b style={{color:amtColor}}>{t.amount}</b>
+                <span>{t.time}</span>
+              </div>
+            })}
+          </div>
+          <svg viewBox="0 0 1024 1024" className="closer" onClick={()=>setShowTx(false)}>
+            <path d="M563.8,512l262.5-312.9c4.4-5.2,0.7-13.1-6.1-13.1h-79.8c-4.7,0-9.2,2.1-12.3,5.7L511.6,449.8L295.1,191.7
+              c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8,0-10.5,7.9-6.1,13.1L459.4,512L196.9,824.9c-4.4,5.2-0.7,13.1,6.1,13.1h79.8
+              c4.7,0,9.2-2.1,12.3-5.7l216.5-258.1l216.5,258.1c3,3.6,7.5,5.7,12.3,5.7h79.8c6.8,0,10.5-7.9,6.1-13.1L563.8,512z"/>
+          </svg>
+        </div>
+      </div>}
+
+      {validPubkey && <pre className="pubkey-pre">{validPubkey}</pre>}
 
     </div>
   );

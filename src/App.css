@@ -2,20 +2,30 @@
   box-sizing: border-box;
 }
 html {
-  font-size: 10px;
+  font-size: 13px;
 }
-.tokens{top:45px;}
+
+
+.tokens{
+  top:45px;
+  height:9rem;
+}
+.page{
+  top:9rem;
+}
 @media (min-width: 400px) {
   html { /* TABLET */
-    font-size: 15px;
+    font-size: 16px;
   }
-  .tokens{top:30px;}
+  .tokens{top:30px;height:8rem;}
+  .page{top:8rem;}
 }
 @media (min-width: 768px) {
   html { /* DESKTOP */
     font-size: 21px;
   }
-  .tokens{top:15px;}
+  .tokens{top:15px;height:7rem;}
+  .page{top:7rem;}
 }
 .App {
   text-align: center;
@@ -30,19 +40,7 @@ html {
   color: white;
   position: relative;
 }
-.tokens{
-  background-color: white;
-  color: black;
-  width:20rem;
-  font-size:1.1rem;
-  padding:12px 0;
-  z-index: 102;
-  position: absolute;
-  left:calc(50% - 10rem);
-}
 .pie{
-  max-height:50vw;
-  max-width:50vw;
   z-index: 99;
   transform: rotate(14deg)
 }
@@ -78,12 +76,22 @@ html {
   height:3rem;
   fill: white;
 }
-
+.tokens{
+  background-color: white;
+  color: black;
+  width:20rem;
+  font-size:1.1rem;
+  z-index: 102;
+  position: absolute;
+  left:calc(50% - 10rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .page{
-  height:100vh;
   width:100vw;
   position: absolute;
-  top:0;left:0;right:0;bottom:0;
+  left:0;right:0;bottom:0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -123,4 +131,52 @@ input#betamount{
   word-break: break-word;
   white-space: pre-wrap;
   overflow-x: auto;
+}
+.burg{
+  height:32px;
+  width:32px;
+  fill:black;
+  position: absolute;
+  right: 7px;
+  top: 4px;
+  cursor: pointer;
+}
+
+.show-txs{
+  background: whitesmoke;
+  border-radius: 10px;
+  min-width:280px;
+  min-height: 400px;
+  max-height: 400px;
+  overflow: auto;
+  color: black;
+  box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.45);
+  position: relative;
+}
+
+.txs{
+  display: flex;
+  flex-direction: column;
+  width:100%;
+}
+.tx{
+  width:100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.85rem;
+  border-bottom:1px solid #ddd;
+  align-items: center;
+  height:30px;
+}
+.tx:first-child{
+  border-top:1px solid #ddd;
+}
+.closer{
+  fill:black;
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
 }
