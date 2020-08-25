@@ -55,7 +55,7 @@ function App() {
       })
       return theTxs
     })
-  }
+  } 
   // hi 
   useEffect(()=>{
     (async () => {
