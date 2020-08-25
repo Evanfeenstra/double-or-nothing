@@ -13,4 +13,4 @@ jobs:
         uses: joelwmale/webhook-action@master
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          data: "{'text': '[GITHUB] New commit in double-or-nothing', 'action': 'broadcast', 'app': 'github', 'secret': '${{ secrets.WEBHOOK_SECRET }}'}"
+          data: "{\"text\": \"[GITHUB] New commit in double-or-nothing\", \"action\": \"broadcast\", \"app\": \"github\", \"secret\": \"${{ secrets.WEBHOOK_SECRET }}\"}"
