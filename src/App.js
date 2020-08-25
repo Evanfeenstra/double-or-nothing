@@ -56,7 +56,7 @@ function App() {
       return theTxs
     })
   }
-  console.log(txs)
+
   useEffect(()=>{
     (async () => {
       const {challenge,id} = await getOauthChallenge()
