@@ -111,9 +111,11 @@ function App() {
   }
 
   async function keysend(housePubkey){
+    console.log("=====> KEYSEND!")
     try {
       const r = await sphinx.keysend(housePubkey,bet)
       if(r&&r.success) {
+        console.log("=====> SUCCESS!",r.budget)
         setTokens(r.budget)
         if(r.budget<=10 || r.budget<=(initialBudget*0.05)) {
           await sleep(2000)

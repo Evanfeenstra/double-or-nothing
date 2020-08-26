@@ -1,8 +1,8 @@
 const fetch = require('node-fetch')
 
 const url = 'https://ecs-relay-12-relay-d2a8b4e3a283a5ef9801.stak.nodes.sphinx.chat' + '/'
-const app = 'double-or-nothing'
-const secret = process.env.SECRET
+const bot_id='9EB13CB2A3D6499E'
+const bot_secret = process.env.SECRET
 const housePubkey = '02290714deafd0cb33d2be3b634fc977a98a9c9fa1dd6c53cf17d99b350c08c67b'
 
 module.exports = async function (req, res) {
@@ -19,7 +19,7 @@ module.exports = async function (req, res) {
       mode: 'cors',
       body: JSON.stringify({
         pubkey, amount:amt, 
-        app, secret,
+        bot_id, bot_secret,
         action: 'keysend'
       }),
       headers: {
