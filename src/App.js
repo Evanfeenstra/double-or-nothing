@@ -46,7 +46,7 @@ function App() {
     }
   }
 
-  function addTx(wl,amt){   
+  function addTx(wl,amt){     
     const time = new Date().toLocaleTimeString()
     setTxs(current=> {
       const theTxs=[...current]
