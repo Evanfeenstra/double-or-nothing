@@ -19,4 +19,4 @@ jobs:
         uses: joelwmale/webhook-action@749e2dcbc6735ce0c36e1dbbb660618cd7b5f91c
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-          data: "{'text': 'New commit in double-or-nothing by ${{ env.COMMIT_AUTHOR }}: ${{ env.COMMIT_MSG }}', 'action': 'broadcast', 'bot_id': '7E9BF94D85677A04', 'bot_secret': '${{ secrets.WEBHOOK_SECRET }}'}"
+          data: "{'text': 'New commit in double-or-nothing by ${{ env.COMMIT_AUTHOR }}: ${{ env.COMMIT_MSG }}', 'action': 'broadcast', 'bot_id': '72473FF90F16BBE5', 'bot_secret': '${{ secrets.WEBHOOK_SECRET }}'}"
