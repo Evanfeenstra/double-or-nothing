@@ -61,7 +61,7 @@ function App() {
     (async () => {
       const {challenge,id} = await getOauthChallenge()
       const r = await sphinx.authorize(challenge, true)
-      console.log("AUTHORIZE RES",r)
+      console.log("AUTHORIZE RES",JSON.stringify(r,null,2))
       if(r&&r.budget) {
         setInitialBudget(r.budget)
         setTokens(r.budget)
@@ -125,10 +125,18 @@ function App() {
             setPubkey(r.pubkey)
           }
         }
+        // if(r.password) {
+        //   testReload(r.password)
+        // }
       }
     } catch(e) {
       console.log(e)
     }
+  }
+
+  async function testReload(password){
+    const r = await sphinx.reload(password)
+    console.log("RELOADED:",JSON.stringify(r,null,2))
   }
 
   let className = 'pie'
@@ -151,7 +159,7 @@ function App() {
               if(theBet>0 && theBet<=tokens && theBet<=MAX_BET) setBet(theBet) 
             }
           }} onFocus={()=>{
-            if (bet==='0') setBet('')
+            if (bet==='0'||bet===0) setBet('')
           }}/>
         </div>
         <div className="winLose">
